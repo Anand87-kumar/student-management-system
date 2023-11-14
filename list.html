@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 10px;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Student List</h1>
+<input type="text" id="searchInput" placeholder="Search by Name" oninput="filterTable()" />
+
+<!-- Table to display student list -->
+<table>
+    <thead>
+        <tr>
+            <th th:sortable="id"><a href="#">ID</a></th>
+            <th th:sortable="name"><a href="#">Name</a></th>
+            <th th:sortable="course"><a href="#">Course</a></th>
+            <th th:sortable="rollNo"><a href="#">Roll No</a></th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="student : ${students.content}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.name}"></td>
+            <td th:text="${student.course}"></td>
+            <td th:text="${student.rollNo}"></td>
+            <td>
+                <a th:href="@{'/students/edit/' + ${student.id}}">Edit</a>
+                <a th:href="@{'/students/delete/' + ${student.id}}">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<div class="pagination">
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{/students(page=0, size=${totalPages}, sort=${sortField})}">First</a>
+        <a th:href="@{/students(page=${currentPage - 1}, size=${totalPages}, sort=${sortField})}">Previous</a>
+    </span>
+
+    <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+        <a th:if="${currentPage != i}" th:href="@{/students?page=${i}&size=${totalPages}&sort=${sortField}}"
+           th:text="${i + 1}" class="page"></a>
+        <span th:if="${currentPage == i}" th:text="${i + 1}" class="page active"></span>
+    </span>
+
+    <span th:if="${currentPage < totalPages - 1}">
+        <a th:href="@{/students(page=${currentPage + 1},size=${totalPages},sort=${sortField})}">Next</a>
+        <a th:href="@{/students(page=${totalPages - 1},size=${totalPages},sort=${sortField})}">Last</a>
+    </span>
+</div>
+
+<!-- Add link to add a new student -->
+<div>
+    <a th:href="@{/students/add}">Add a New Student</a>
+</div>
+
+</body>
+</html>

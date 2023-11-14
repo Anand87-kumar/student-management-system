@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+    <!-- Add your head content here -->
+</head>
+<body>
+
+<h1 style="text-align:center">Add Student</h1>
+
+<form th:action="@{/students/add}" th:object="${student}" method="post">
+    <label>Name: <input type="text" th:field="*{name}" /></label><br/>
+    <label>Course: <input type="text" th:field="*{course}" /></label><br/>
+    <label>Roll No: <input type="text" th:field="*{rollNo}" /></label><br/>
+    <input type="submit" value="Add"/>
+</form>
+
+<!-- Link to go back to the student list -->
+<div  style="text-align: center;">
+    <a th:href="@{/students}">Back to Student List</a>
+</div>
+
+</body>
+</html>
